@@ -211,61 +211,6 @@
       }
     },
     {
-      "id": "waterway-tunnel",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "waterway",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "==",
-          "brunnel",
-          "tunnel"
-        ]
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "hsl(205, 56%, 73%)",
-        "line-dasharray": [
-          3,
-          3
-        ],
-        "line-gap-width": {
-          "stops": [
-            [
-              12,
-              0
-            ],
-            [
-              20,
-              6
-            ]
-          ]
-        },
-        "line-opacity": 1,
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              8,
-              1
-            ],
-            [
-              20,
-              2
-            ]
-          ]
-        }
-      }
-    },
-    {
       "id": "tunnel_railway_transit",
       "type": "line",
       "source": "openmaptiles",
@@ -962,58 +907,6 @@
             [
               16,
               1
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "waterway-bridge-case",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "waterway",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "==",
-          "brunnel",
-          "bridge"
-        ]
-      ],
-      "layout": {
-        "line-cap": "butt",
-        "line-join": "miter"
-      },
-      "paint": {
-        "line-color": "#bbbbbb",
-        "line-gap-width": {
-          "base": 1.55,
-          "stops": [
-            [
-              4,
-              0.25
-            ],
-            [
-              20,
-              30
-            ]
-          ]
-        },
-        "line-width": {
-          "base": 1.6,
-          "stops": [
-            [
-              12,
-              0.5
-            ],
-            [
-              20,
-              10
             ]
           ]
         }
@@ -1880,6 +1773,46 @@
           2,
           1
         ]
+      }
+    },
+    {
+      "id": "water_point",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "NHDPoint",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Point"
+        ],
+        [
+          "in",
+          "FCode",
+          45800
+        ]
+      ],
+      "layout": {
+        "icon-size": 1,
+        "text-anchor": "top",
+        "text-field": "spring",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-max-width": 8,
+        "text-offset": [
+          0,
+          0.5
+        ],
+        "text-size": 11,
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#666",
+        "text-halo-blur": 1,
+        "text-halo-color": "rgba(255,255,255,0.75)",
+        "text-halo-width": 1
       }
     }
   ],
