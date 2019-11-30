@@ -1,0 +1,6 @@
+.env
+tiles
+data
+*.gdb
+*.mbtiles
+*.geojson
