@@ -25,7 +25,7 @@
       "id": "background",
       "type": "background",
       "paint": {
-        "background-color": "hsl(47, 26%, 88%)"
+        "background-color": "rgb(255, 255, 255)"
       }
     },
     {
@@ -82,7 +82,7 @@
         10600
       ],
       "paint": {
-        "fill-color": "hsl(82, 46%, 72%)",
+        "fill-color": "rgb(235, 250, 214)",
         "fill-opacity": {
           "base": 1,
           "stops": [
@@ -208,6 +208,25 @@
             ]
           ]
         }
+      }
+    },
+    {
+      "id": "outline_national_forest",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "GU_Reserve",
+      "filter": [
+        "==",
+        "FCode",
+        67100
+      ],
+      "layout": {},
+      "paint": {
+        "line-color": "rgba(159, 183, 118, 0.69)",
+        "line-dasharray": [
+          0.5,
+          1
+        ]
       }
     },
     {
@@ -1116,16 +1135,35 @@
       }
     },
     {
-      "id": "admin_sub",
+      "id": "admin_county",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "boundary",
+      "source": "nationalmap",
+      "source-layer": "GU_CountyOrEquivalent",
       "filter": [
-        "in",
-        "admin_level",
-        4,
-        6,
-        8
+        "==",
+        "FCode",
+        61200
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "hsla(0, 0%, 60%, 0.5)",
+        "line-dasharray": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "id": "admin_state",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "GU_StateOrTerritory",
+      "filter": [
+        "==",
+        "FCode",
+        61100
       ],
       "layout": {
         "visibility": "visible"
@@ -1578,7 +1616,34 @@
         ]
       ],
       "paint": {
-        "fill-color": "hsl(205, 56%, 73%)"
+        "fill-color": "rgb(235, 248, 255)"
+      },
+      "layout": {
+        "visibility": "visible"
+      }
+    },
+    {
+      "id": "water_fill_outline",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ],
+        [
+          "!in",
+          "FCode",
+          39001,
+          39005,
+          39006
+        ]
+      ],
+      "paint": {
+        "line-color": "rgb(178, 218, 229)"
       },
       "layout": {
         "visibility": "visible"
@@ -1608,7 +1673,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "fill-color": "hsl(205, 56%, 73%)",
+        "fill-color": "rgb(235, 248, 255)",
         "fill-opacity": 0.7
       }
     },
@@ -1632,7 +1697,7 @@
         ]
       ],
       "paint": {
-        "line-color": "hsl(205, 56%, 73%)",
+        "line-color": "rgb(198, 231, 253)",
         "line-width": {
           "base": 1.4,
           "stops": [
@@ -1671,7 +1736,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(205, 56%, 73%)",
+        "line-color": "rgb(198, 231, 253)",
         "line-opacity": 1,
         "line-width": {
           "base": 1.4,
@@ -1755,7 +1820,7 @@
         "line-join": "bevel"
       },
       "paint": {
-        "line-color": "hsl(0, 0%, 97%)",
+        "line-color": "rgb(155, 155, 155)",
         "line-dasharray": [
           1,
           1
