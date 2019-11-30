@@ -1782,6 +1782,115 @@
         "text-halo-color": "rgba(255,255,255,0.75)",
         "text-halo-width": 2
       }
+    },
+    {
+      "id": "contour_label",
+      "type": "symbol",
+      "metadata": {},
+      "source": "nationalmap",
+      "source-layer": "Elev_Contour",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "==",
+          "FCode",
+          10102
+        ],
+        [
+          ">",
+          "ContourElevation",
+          0
+        ]
+      ],
+      "layout": {
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [
+              15,
+              9.5
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
+        "text-allow-overlap": false,
+        "symbol-avoid-edges": true,
+        "text-ignore-placement": false,
+        "symbol-placement": "line",
+        "text-padding": 10,
+        "text-rotation-alignment": "map",
+        "text-field": "{ContourElevation} ft",
+        "text-font": [
+          "Noto Sans Regular"
+        ]
+      },
+      "paint": {
+        "text-color": "hsl(0, 0%, 37%)",
+        "text-halo-color": "hsla(0, 0%, 100%, 0.5)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "contour_index",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "Elev_Contour",
+      "filter": [
+        "all",
+        [
+          ">",
+          "ContourElevation",
+          0
+        ],
+        [
+          "==",
+          "FCode",
+          10102
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "hsl(0, 1%, 58%)",
+        "line-opacity": 0.4,
+        "line-width": 1.1
+      }
+    },
+    {
+      "id": "contour",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "Elev_Contour",
+      "filter": [
+        "all",
+        [
+          "==",
+          "FCode",
+          10101
+        ],
+        [
+          ">",
+          "ContourElevation",
+          0
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "hsl(0, 1%, 58%)",
+        "line-opacity": 0.3,
+        "line-width": 0.6
+      }
     }
   ],
   "id": "basic"
