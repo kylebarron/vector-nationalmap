@@ -118,8 +118,6 @@ class NationalMapAPI:
     def search_products(self, bbox, product, extent, fmt):
         """Search the products endpoint of the National Map API
 
-        TODO: page over results if there are more than returned in the first call
-
         Args:
             - bbox: (left, bottom, right, top)
             - product: short name of product
@@ -193,9 +191,22 @@ class NationalMapAPI:
             'prodExtents': extent,
             'prodFormats': fmt}
         res = requests.get(url, params=params).json()
+        # If I don't need to page for more results, return
+        if len(res['items']) == res['total']:
+            return [x for x in res['items'] if x['bestFitIndex'] > 0]
+
+        # Otherwise, need to page
+        all_results = [*res['items']]
+        n_retrieved = len(res['items'])
+        n_total = res['total']
+
+        for offset in range(n_retrieved, n_total, n_retrieved):
+            params['offset'] = offset
+            res = requests.get(url, params=params).json()
+            all_results.extend(res['items'])
 
         # Keep all results with best fit index >0
-        return [x for x in res['items'] if x['bestFitIndex'] > 0]
+        return [x for x in all_results if x['bestFitIndex'] > 0]
 
 
 def download_url(url, directory, overwrite=False):
