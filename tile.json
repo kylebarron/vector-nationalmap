@@ -1,0 +1,15 @@
+{
+    "tilejson": "2.2.0",
+    "name": "vector-nationalmap",
+    "description": "A vector version of the US Topo National Map",
+    "version": "0.1.0",
+    "attribution": "<a href='http://openstreetmap.org'>OSM contributors</a>",
+    "scheme": "xyz",
+    "tiles": [
+        "https://tiles.nst.guide/vector-nationalmap/{z}/{x}/{y}.pbf"
+    ],
+    "minzoom": 0,
+    "maxzoom": 11,
+    "bounds": [-124.848974,45.543541,-116.916071,49.00243],
+    "center": [ -120.673828,48.864681,1 ]
+}
