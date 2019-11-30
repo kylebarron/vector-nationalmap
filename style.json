@@ -74,12 +74,12 @@
     {
       "id": "landcover_wood",
       "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "landcover",
+      "source": "nationalmap",
+      "source-layer": "LANDCOVER_WOODLAND",
       "filter": [
         "==",
-        "class",
-        "wood"
+        "FCODE",
+        10600
       ],
       "paint": {
         "fill-color": "hsl(82, 46%, 72%)",
