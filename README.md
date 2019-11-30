@@ -53,4 +53,5 @@ Columns to keep from each data source:
 
 ## References
 
-[Helpful list for NHD FCode values](https://nhd.usgs.gov/userGuide/Robohelpfiles/NHD_User_Guide/Feature_Catalog/Hydrography_Dataset/Complete_FCode_List.htm)
+- [Helpful list for NHD FCode values](https://nhd.usgs.gov/userGuide/Robohelpfiles/NHD_User_Guide/Feature_Catalog/Hydrography_Dataset/Complete_FCode_List.htm)
+- I can't tell exactly what this is, but it looks like a **_gem_**. http://docs.opengeospatial.org/per/16-037.pdf
