@@ -1342,51 +1342,6 @@
       }
     },
     {
-      "id": "place_label_city",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "maxzoom": 16,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "==",
-          "class",
-          "city"
-        ]
-      ],
-      "layout": {
-        "text-field": "{name:latin}\n{name:nonlatin}",
-        "text-font": [
-          "Noto Sans Regular"
-        ],
-        "text-max-width": 10,
-        "text-size": {
-          "stops": [
-            [
-              3,
-              12
-            ],
-            [
-              8,
-              16
-            ]
-          ]
-        }
-      },
-      "paint": {
-        "text-color": "hsl(0, 0%, 0%)",
-        "text-halo-blur": 0,
-        "text-halo-color": "hsla(0, 0%, 100%, 0.75)",
-        "text-halo-width": 2
-      }
-    },
-    {
       "id": "country_label-other",
       "type": "symbol",
       "source": "openmaptiles",
@@ -1530,13 +1485,13 @@
         "symbol-placement": "line",
         "text-padding": 10,
         "text-rotation-alignment": "map",
-        "text-field": "{ContourElevation} ft",
+        "text-field": "{ContourElevation}",
         "text-font": [
           "Noto Sans Regular"
         ]
       },
       "paint": {
-        "text-color": "hsl(0, 0%, 37%)",
+        "text-color": "rgb(131, 66, 37)",
         "text-halo-color": "hsla(0, 0%, 100%, 0.5)",
         "text-halo-width": 1.5
       }
@@ -1563,7 +1518,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(0, 1%, 58%)",
+        "line-color": "rgb(166, 116, 66)",
         "line-opacity": 0.4,
         "line-width": 1.1
       }
@@ -1590,10 +1545,11 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(0, 1%, 58%)",
+        "line-color": "rgb(179, 134, 89)",
         "line-opacity": 0.3,
         "line-width": 0.6
-      }
+      },
+      "minzoom": 11
     },
     {
       "id": "water_fill",
@@ -1876,6 +1832,197 @@
       "paint": {
         "text-color": "#000",
         "text-halo-color": "hsl(0, 0%, 100%)",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "label_water_line",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "NHDFlowline",
+      "filter": [
+        "all",
+        [
+          "has",
+          "GNIS_Name"
+        ],
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          ">",
+          "Shape_Length",
+          0.013
+        ]
+      ],
+      "layout": {
+        "text-letter-spacing": 0.1,
+        "text-size": {
+          "base": 1.2,
+          "stops": [
+            [
+              12,
+              10
+            ],
+            [
+              15,
+              14
+            ]
+          ]
+        },
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-field": "{GNIS_Name}",
+        "text-transform": "none",
+        "text-max-width": 9,
+        "visibility": "visible",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": "rgba(38, 92, 46, 1)",
+        "text-halo-width": 1.2,
+        "text-halo-color": "rgba(255,255,255,0.8)"
+      },
+      "minzoom": 12
+    },
+    {
+      "id": "label_water_fill",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "has",
+          "GNIS_Name"
+        ],
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ]
+      ],
+      "layout": {
+        "text-letter-spacing": 0.1,
+        "text-size": {
+          "base": 1.2,
+          "stops": [
+            [
+              12,
+              10
+            ],
+            [
+              15,
+              14
+            ]
+          ]
+        },
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-field": "{GNIS_Name}",
+        "text-transform": "none",
+        "text-max-width": 9,
+        "visibility": "visible",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": "rgba(38, 92, 46, 1)",
+        "text-halo-width": 1.2,
+        "text-halo-color": "rgba(255,255,255,0.8)"
+      },
+      "minzoom": 12
+    },
+    {
+      "id": "label_summit",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "TNMDerivedNames",
+      "filter": [
+        "all",
+        [
+          "in",
+          "FEATURE_CODE",
+          15048,
+          15030,
+          15044,
+          15010
+        ]
+      ],
+      "layout": {
+        "text-letter-spacing": 0.1,
+        "text-size": {
+          "base": 1.2,
+          "stops": [
+            [
+              12,
+              10
+            ],
+            [
+              15,
+              14
+            ]
+          ]
+        },
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-field": "{GAZ_NAME}",
+        "text-transform": "none",
+        "text-max-width": 9,
+        "visibility": "visible",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": "rgb(0, 0, 0)",
+        "text-halo-width": 1.2,
+        "text-halo-color": "rgba(255,255,255,0.8)"
+      },
+      "minzoom": 10
+    },
+    {
+      "id": "label_populated_place",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "TNMDerivedNames",
+      "maxzoom": 16,
+      "filter": [
+        "all",
+        [
+          "in",
+          "FEATURE_CODE",
+          99904
+        ]
+      ],
+      "layout": {
+        "text-field": "{GAZ_NAME}",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-max-width": 10,
+        "text-size": {
+          "stops": [
+            [
+              3,
+              12
+            ],
+            [
+              8,
+              16
+            ]
+          ]
+        }
+      },
+      "paint": {
+        "text-color": "hsl(0, 0%, 0%)",
+        "text-halo-blur": 0,
+        "text-halo-color": "hsla(0, 0%, 100%, 0.75)",
         "text-halo-width": 2
       }
     }
