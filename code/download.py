@@ -7,7 +7,10 @@ import requests
 
 
 def main():
-    bbox = (-124.057946, 46.315697, -117.916931, 48.588924)
+    # Most of Washington:
+    # bbox = (-124.057946, 46.315697, -117.916931, 48.588924)
+    # Smaller area of Washington to start with
+    bbox = (-122.002507, 47.609226, -119.640578, 48.990683)
     download_dir = '../data/raw'
     downloader = Download(bbox, download_dir)
     downloader.download()

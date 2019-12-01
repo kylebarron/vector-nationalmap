@@ -182,7 +182,9 @@ def extract_tnmderivednames(paths, out_dir, overwrite=False):
     gdf = gpd.GeoDataFrame(pd.concat(gdfs, sort=False))
 
     # Keep only necessary columns
-    keep_cols = ['GAZ_NAME', 'GAZ_FEATURECLASS', 'GAZ_ELEVATION', 'FEATURE_CODE', 'geometry']
+    keep_cols = [
+        'GAZ_NAME', 'GAZ_FEATURECLASS', 'GAZ_ELEVATION', 'FEATURE_CODE',
+        'geometry']
     gdf = gdf[keep_cols]
 
     if len(gdf) == 0:
