@@ -17,10 +17,14 @@
         "https://klokantech.github.io/naturalearthtiles/tiles/natural_earth_2_shaded_relief.raster/{z}/{x}/{y}.png"
       ],
       "type": "raster"
+    },
+    "nationalmap": {
+      "type": "vector",
+      "url": "https://tiles.nst.guide/vector-nationalmap/tile.json"
     }
   },
   "sprite": "https://maputnik.github.io/osm-liberty/sprites/osm-liberty",
-  "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key={key}",
+  "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -145,10 +149,25 @@
       }
     },
     {
-      "id": "water",
+      "id": "water_fill",
       "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "water",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ],
+        [
+          "!in",
+          "FCode",
+          39001,
+          39005,
+          39006
+        ]
+      ],
       "paint": {"fill-color": "rgb(158,189,255)"}
     },
     {
@@ -1614,6 +1633,592 @@
         "text-color": "#633",
         "text-halo-color": "rgba(255,255,255,0.7)",
         "text-halo-width": 1
+      }
+    },
+    {
+      "id": "contour_label",
+      "type": "symbol",
+      "metadata": {},
+      "source": "nationalmap",
+      "source-layer": "Elev_Contour",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "==",
+          "FCode",
+          10102
+        ],
+        [
+          ">",
+          "ContourElevation",
+          0
+        ]
+      ],
+      "layout": {
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [
+              15,
+              9.5
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
+        "text-allow-overlap": false,
+        "symbol-avoid-edges": true,
+        "text-ignore-placement": false,
+        "symbol-placement": "line",
+        "text-padding": 10,
+        "text-rotation-alignment": "map",
+        "text-field": "{ContourElevation}",
+        "text-font": [
+          "Noto Sans Regular"
+        ]
+      },
+      "paint": {
+        "text-color": "rgb(131, 66, 37)",
+        "text-halo-color": "hsla(0, 0%, 100%, 0.5)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "contour_index",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "Elev_Contour",
+      "filter": [
+        "all",
+        [
+          ">",
+          "ContourElevation",
+          0
+        ],
+        [
+          "==",
+          "FCode",
+          10102
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgb(166, 116, 66)",
+        "line-opacity": 0.4,
+        "line-width": 1.1
+      },
+      "minzoom": 0
+    },
+    {
+      "id": "contour",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "Elev_Contour",
+      "filter": [
+        "all",
+        [
+          "==",
+          "FCode",
+          10101
+        ],
+        [
+          ">",
+          "ContourElevation",
+          0
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgb(179, 134, 89)",
+        "line-opacity": 0.3,
+        "line-width": 0.6
+      },
+      "minzoom": 7
+    },
+    {
+      "id": "water_fill_outline",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ],
+        [
+          "!in",
+          "FCode",
+          39001,
+          39005,
+          39006
+        ]
+      ],
+      "paint": {
+        "line-color": "rgb(178, 218, 229)"
+      },
+      "layout": {
+        "visibility": "visible"
+      }
+    },
+    {
+      "id": "water_fill_area",
+      "type": "fill",
+      "source": "nationalmap",
+      "source-layer": "NHDArea",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ],
+        [
+          "!in",
+          "FCode",
+          39001,
+          39005,
+          39006
+        ]
+      ],
+      "paint": {
+        "fill-color": "rgb(235, 248, 255)"
+      },
+      "layout": {
+        "visibility": "visible"
+      }
+    },
+    {
+      "id": "water_fill_intermittent",
+      "type": "fill",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ],
+        [
+          "in",
+          "FCode",
+          39001,
+          39005,
+          39006
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "rgb(235, 248, 255)",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "water_line",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "NHDFlowline",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "in",
+          "FCode",
+          46000,
+          46006
+        ]
+      ],
+      "paint": {
+        "line-color": "rgb(198, 231, 253)",
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              8,
+              1
+            ],
+            [
+              20,
+              8
+            ]
+          ]
+        },
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "water_line_intermittent",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "NHDFlowline",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "in",
+          "FCode",
+          46003
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgb(198, 231, 253)",
+        "line-opacity": 1,
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              8,
+              1
+            ],
+            [
+              20,
+              8
+            ]
+          ]
+        },
+        "line-dasharray": [
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "id": "water_point",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "NHDPoint",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Point"
+        ],
+        [
+          "in",
+          "FCode",
+          45800
+        ]
+      ],
+      "layout": {
+        "icon-size": 1,
+        "text-anchor": "top",
+        "text-field": "spring",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-max-width": 8,
+        "text-offset": [
+          0,
+          0.5
+        ],
+        "text-size": 11,
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#666",
+        "text-halo-blur": 1,
+        "text-halo-color": "rgba(255,255,255,0.75)",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "trail",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "Trans_TrailSegment",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "==",
+          "FCODE",
+          20602
+        ]
+      ],
+      "layout": {
+        "line-cap": "square",
+        "line-join": "bevel"
+      },
+      "paint": {
+        "line-color": "rgb(155, 155, 155)",
+        "line-dasharray": [
+          1,
+          1
+        ],
+        "line-width": {
+          "base": 1.55,
+          "stops": [
+            [
+              4,
+              2
+            ],
+            [
+              15,
+              5
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "trail_label",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "Trans_TrailSegment",
+      "filter": [
+        "==",
+        "$type",
+        "LineString"
+      ],
+      "layout": {
+        "symbol-placement": "line",
+        "text-field": "{NAME}",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-letter-spacing": 0.1,
+        "text-rotation-alignment": "map",
+        "text-size": {
+          "base": 1.4,
+          "stops": [
+            [
+              10,
+              8
+            ],
+            [
+              20,
+              14
+            ]
+          ]
+        },
+        "text-transform": "uppercase"
+      },
+      "paint": {
+        "text-color": "#000",
+        "text-halo-color": "hsl(0, 0%, 100%)",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "label_water_line",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "NHDFlowline",
+      "filter": [
+        "all",
+        [
+          "has",
+          "GNIS_Name"
+        ],
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          ">",
+          "Shape_Length",
+          0.013
+        ]
+      ],
+      "layout": {
+        "text-letter-spacing": 0.1,
+        "text-size": {
+          "base": 1.2,
+          "stops": [
+            [
+              12,
+              10
+            ],
+            [
+              15,
+              14
+            ]
+          ]
+        },
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-field": "{GNIS_Name}",
+        "text-transform": "none",
+        "text-max-width": 9,
+        "visibility": "visible",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": "rgba(38, 92, 46, 1)",
+        "text-halo-width": 1.2,
+        "text-halo-color": "rgba(255,255,255,0.8)"
+      },
+      "minzoom": 12
+    },
+    {
+      "id": "label_water_fill",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "has",
+          "GNIS_Name"
+        ],
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ]
+      ],
+      "layout": {
+        "text-letter-spacing": 0.1,
+        "text-size": {
+          "base": 1.2,
+          "stops": [
+            [
+              12,
+              10
+            ],
+            [
+              15,
+              14
+            ]
+          ]
+        },
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-field": "{GNIS_Name}",
+        "text-transform": "none",
+        "text-max-width": 9,
+        "visibility": "visible",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": "rgba(38, 92, 46, 1)",
+        "text-halo-width": 1.2,
+        "text-halo-color": "rgba(255,255,255,0.8)"
+      },
+      "minzoom": 12
+    },
+    {
+      "id": "label_summit",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "TNMDerivedNames",
+      "filter": [
+        "all",
+        [
+          "in",
+          "FEATURE_CODE",
+          15048,
+          15030,
+          15044,
+          15010
+        ]
+      ],
+      "layout": {
+        "text-letter-spacing": 0.1,
+        "text-size": {
+          "base": 1.2,
+          "stops": [
+            [
+              12,
+              10
+            ],
+            [
+              15,
+              14
+            ]
+          ]
+        },
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-field": "{GAZ_NAME}",
+        "text-transform": "none",
+        "text-max-width": 9,
+        "visibility": "visible",
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
+      },
+      "paint": {
+        "text-color": "rgb(0, 0, 0)",
+        "text-halo-width": 1.2,
+        "text-halo-color": "rgba(255,255,255,0.8)"
+      },
+      "minzoom": 10
+    },
+    {
+      "id": "label_populated_place",
+      "type": "symbol",
+      "source": "nationalmap",
+      "source-layer": "TNMDerivedNames",
+      "maxzoom": 16,
+      "filter": [
+        "all",
+        [
+          "in",
+          "FEATURE_CODE",
+          99904
+        ]
+      ],
+      "layout": {
+        "text-field": "{GAZ_NAME}",
+        "text-font": [
+          "Noto Sans Regular"
+        ],
+        "text-max-width": 10,
+        "text-size": {
+          "stops": [
+            [
+              3,
+              12
+            ],
+            [
+              8,
+              16
+            ]
+          ]
+        }
+      },
+      "paint": {
+        "text-color": "hsl(0, 0%, 0%)",
+        "text-halo-blur": 0,
+        "text-halo-color": "hsla(0, 0%, 100%, 0.75)",
+        "text-halo-width": 2
       }
     }
   ],
