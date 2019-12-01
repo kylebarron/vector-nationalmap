@@ -11,7 +11,7 @@ from osgeo import gdal
 from pyproj.exceptions import CRSError
 
 
-def main():
+def main(overwrite=False):
     out_dir = Path('../data/cleaned')
     out_dir.mkdir(exist_ok=True, parents=True)
 
@@ -32,28 +32,90 @@ def main():
         'GU_PLSSSpecialSurvey': None,
         'GU_PLSSTownship': None}
 
-    make_hillshade(data_paths['ned1'])
-
     # Extract National Boundaries Dataset
     extract_layers(
-        paths=data_paths['nbd'], out_dir=out_dir, keep_cols_dict=keep_cols_dict)
+        paths=data_paths['nbd'],
+        out_dir=out_dir,
+        keep_cols_dict=keep_cols_dict,
+        overwrite=overwrite)
 
     # Extract National Hydrography Dataset
     keep_layers = [
         'NHDArea', 'NHDFlowline', 'NHDLine', 'NHDPoint', 'NHDWaterbody']
+    # Remove where FCode = 55800 (artificial features)
     extract_layers(
         paths=data_paths['nhd'],
         out_dir=out_dir,
         keep_layers=keep_layers,
-        keep_cols_dict=keep_cols_dict)
+        keep_cols_dict=keep_cols_dict,
+        overwrite=overwrite)
 
     # Extract contours
     extract_layers(
         paths=data_paths['contours'],
+        keep_layers=['Elev_Contour'],
         out_dir=out_dir,
-        keep_cols_dict=keep_cols_dict)
+        keep_cols_dict=keep_cols_dict,
+        overwrite=overwrite)
 
-    data_paths.keys()
+    # # Extract small-scale boundaries
+    # extract_layers(
+    #     paths=data_paths['sm_bound'],
+    #     out_dir=out_dir,
+    #     keep_cols_dict=keep_cols_dict,
+    #     overwrite=overwrite)
+    #
+    # # Extract small-scale contours
+    # extract_layers(
+    #     paths=data_paths['sm_contour'],
+    #     out_dir=out_dir,
+    #     keep_cols_dict=keep_cols_dict,
+    #     overwrite=overwrite)
+    #
+    # # Extract small-scale hydrography
+    # extract_layers(
+    #     paths=data_paths['sm_hydro'],
+    #     out_dir=out_dir,
+    #     keep_cols_dict=keep_cols_dict,
+    #     overwrite=overwrite)
+    #
+    # # Extract small-scale transportation
+    # extract_layers(
+    #     paths=data_paths['sm_trans'],
+    #     out_dir=out_dir,
+    #     keep_cols_dict=keep_cols_dict,
+    #     overwrite=overwrite)
+
+    # Extract National Structures Dataset
+    extract_layers(
+        paths=data_paths['nsd'],
+        out_dir=out_dir,
+        keep_cols_dict=keep_cols_dict,
+        overwrite=overwrite)
+
+    # Extract National Transportation Dataset
+    keep_layers = [
+        'Trans_AirportPoint', 'Trans_RailFeature', 'Trans_AirportRunway',
+        'Trans_RoadSegment', 'Trans_TrailSegment']
+    extract_layers(
+        paths=data_paths['ntd'],
+        keep_layers=keep_layers,
+        out_dir=out_dir,
+        keep_cols_dict=keep_cols_dict,
+        overwrite=overwrite)
+
+    # Extract Woodland features
+    extract_layers(
+        paths=data_paths['woodland'],
+        out_dir=out_dir,
+        keep_cols_dict=keep_cols_dict,
+        overwrite=overwrite)
+
+    # Extract TNMDerivedNames from Combined Vector files
+    extract_tnmderivednames(data_paths['combined_vector'])
+
+    # Make hillshade
+    make_hillshade(data_paths['ned1'])
 
 
 def extract_layers(
@@ -104,6 +166,32 @@ def extract_layers(
         print(f'Extracted layer: {layer}')
 
     return geojson_paths
+
+
+def extract_tnmderivednames(paths, out_dir, overwrite=False):
+    """Extract derived names from individual vector quad files
+    """
+
+    layer = 'TNMDerivedNames'
+    out_path = Path(out_dir) / (layer + '.geojson')
+
+    if (not overwrite) and out_path.exists():
+        return
+
+    gdfs = [gpd.read_file(f, layer=layer).to_crs(epsg=4326) for f in paths]
+    gdf = gpd.GeoDataFrame(pd.concat(gdfs, sort=False))
+
+    # Keep only necessary columns
+    keep_cols = ['GAZ_NAME', 'GAZ_FEATURECLASS', 'GAZ_ELEVATION', 'FEATURE_CODE', 'geometry']
+    gdf = gdf[keep_cols]
+
+    if len(gdf) == 0:
+        return
+
+    gdf.to_file(out_path, driver='GeoJSONSeq')
+    print(f'Extracted layer: {layer}')
+
+    return [out_path]
 
 
 def make_hillshade(dem_paths):
