@@ -72,8 +72,28 @@ class Download(object):
         self.woodland_paths = self._download_product(
             product='woodland', extent='State', fmt='FileGDB 10.1')
 
+        # Topo Map Vector
+        # This is combined vector data for a 7.5x7.5 degree grid, essentially
+        # what I'm creating above. However, from the documentation sheet,
+        # section 3
+        # https://viewer.nationalmap.gov/tools/topotemplate/contents/TopoTNMStyleTemplateFAQ.pdf
+        # > TNM Derived Names is a filtered and enriched dataset
+        # > intended specifically to be used in the Topo TNM Style Template for
+        # > symbolizing and labeling named features. TNM Derived Names data are
+        # > provided only in conjunction with Topo Map Vector Data products and
+        # > due to the filtering process does not include all GNIS names
+        # > available in the standard GNIS dataset.
+        # So I'll use the combined vector files just to extract the derived
+        # names, instead of using all the GNIS names
+        self.combined_vector = self._download_product(
+            product='Combined Vector',
+            extent='7.5 x 7.5 minute',
+            fmt='FileGDB 10.1')
+
     def _download_product(self, product, extent, fmt):
         """Find products intersecting bbox and download them
+
+        TODO: Use requests.session for multiple URLs
         """
         results = self.api.search_products(
             self.bbox, product=product, extent=extent, fmt=fmt)
@@ -98,7 +118,8 @@ class Download(object):
             'sm_trans': _paths_to_str(self.sm_trans_paths),
             'nsd': _paths_to_str(self.nsd_paths),
             'ntd': _paths_to_str(self.ntd_paths),
-            'woodland': _paths_to_str(self.woodland_paths)}
+            'woodland': _paths_to_str(self.woodland_paths),
+            'combined_vector': _paths_to_str(self.combined_vector)}
         return paths
 
 
@@ -155,7 +176,9 @@ class NationalMapAPI:
             'ntd':
                 'National Transportation Dataset (NTD)',
             'woodland':
-                'Land Cover - Woodland'}
+                'Land Cover - Woodland',
+            'Combined Vector':
+                'Combined Vector'}
         product_kw = products_xw.get(product)
         if product_kw is None:
             msg = 'Invalid product_name provided'
@@ -190,7 +213,9 @@ class NationalMapAPI:
             'version': 1,
             'prodExtents': extent,
             'prodFormats': fmt}
-        res = requests.get(url, params=params).json()
+
+        res = requests.get(url, params=params)
+        res = res.json()
         # If I don't need to page for more results, return
         if len(res['items']) == res['total']:
             return [x for x in res['items'] if x['bestFitIndex'] > 0]
