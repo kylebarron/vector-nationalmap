@@ -233,16 +233,17 @@
       }
     },
     {
-      "id": "waterway_other",
+      "id": "water_line",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "waterway",
+      "source": "nationalmap",
+      "source-layer": "NHDFlowline",
       "filter": [
         "all",
         [
-          "!=",
-          "class",
-          "river"
+          "in",
+          "FCode",
+          46000,
+          46006
         ]
       ],
       "layout": {
@@ -266,6 +267,44 @@
       }
     },
     {
+      "id": "water_line_intermittent",
+      "type": "line",
+      "source": "nationalmap",
+      "source-layer": "NHDFlowline",
+      "filter": [
+        "all",
+        [
+          "in",
+          "FCode",
+          46003
+        ]
+      ],
+      "layout": {
+        "line-cap": "butt"
+      },
+      "paint": {
+        "line-color": "rgb(198, 231, 253)",
+        "line-opacity": 1,
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              8,
+              1
+            ],
+            [
+              20,
+              10
+            ]
+          ]
+        },
+        "line-dasharray": [
+          3,
+          2
+        ]
+      }
+    },
+    {
       "id": "water_fill",
       "type": "fill",
       "source": "nationalmap",
@@ -279,6 +318,30 @@
         ],
         [
           "!in",
+          "FCode",
+          39001,
+          39005,
+          39006
+        ]
+      ],
+      "paint": {
+        "fill-color": "rgb(158,189,255)"
+      }
+    },
+    {
+      "id": "water_fill_intermittent",
+      "type": "fill",
+      "source": "nationalmap",
+      "source-layer": "NHDWaterbody",
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Polygon"
+        ],
+        [
+          "in",
           "FCode",
           39001,
           39005,
@@ -4143,114 +4206,6 @@
       },
       "layout": {
         "visibility": "visible"
-      }
-    },
-    {
-      "id": "water_fill_intermittent",
-      "type": "fill",
-      "source": "nationalmap",
-      "source-layer": "NHDWaterbody",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Polygon"
-        ],
-        [
-          "in",
-          "FCode",
-          39001,
-          39005,
-          39006
-        ]
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-color": "rgb(235, 248, 255)",
-        "fill-opacity": 0.7
-      }
-    },
-    {
-      "id": "water_line",
-      "type": "line",
-      "source": "nationalmap",
-      "source-layer": "NHDFlowline",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "in",
-          "FCode",
-          46000,
-          46006
-        ]
-      ],
-      "paint": {
-        "line-color": "rgb(198, 231, 253)",
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              8,
-              1
-            ],
-            [
-              20,
-              8
-            ]
-          ]
-        },
-        "line-opacity": 1
-      }
-    },
-    {
-      "id": "water_line_intermittent",
-      "type": "line",
-      "source": "nationalmap",
-      "source-layer": "NHDFlowline",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "in",
-          "FCode",
-          46003
-        ]
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgb(198, 231, 253)",
-        "line-opacity": 1,
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              8,
-              1
-            ],
-            [
-              20,
-              8
-            ]
-          ]
-        },
-        "line-dasharray": [
-          2,
-          1
-        ]
       }
     },
     {
