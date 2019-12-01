@@ -19,7 +19,7 @@
       "url": "https://tiles.nst.guide/vector-nationalmap/tile.json"
     }
   },
-  "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key={key}",
+  "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
