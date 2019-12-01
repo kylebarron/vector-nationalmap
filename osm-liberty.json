@@ -61,17 +61,6 @@
       }
     },
     {
-      "type": "hillshade",
-      "paint": {
-          "hillshade-shadow-color": "hsl(39, 21%, 33%)"
-      },
-      "layout": {
-          "visibility": "visible"
-      },
-      "id": "hillshade",
-      "source": "mapbox://mapbox.terrain-rgb"
-      },
-    {
       "id": "park",
       "type": "fill",
       "source": "openmaptiles",
@@ -94,6 +83,17 @@
         ],
         "line-color": "rgba(228, 241, 215, 1)"
       }
+    },
+    {
+      "type": "hillshade",
+      "paint": {
+          "hillshade-shadow-color": "hsl(39, 21%, 33%)"
+      },
+      "layout": {
+          "visibility": "visible"
+      },
+      "id": "hillshade",
+      "source": "mapbox://mapbox.terrain-rgb"
     },
     {
       "id": "landuse_residential",
